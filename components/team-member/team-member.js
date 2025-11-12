@@ -1,6 +1,6 @@
 class TeamMember extends HTMLElement {
   static get observedAttributes() {
-    return ["avatar", "name", "department", "year"];
+    return ["avatar", "name", "department", "year", "industry_partner"];
   }
 
   constructor() {
@@ -23,10 +23,11 @@ class TeamMember extends HTMLElement {
     <p><strong>${this.name}</strong></p>
     <p>${this.department}</p>
     <p>${this.year}</p>
+    <p>${this.industry_partner}</p>
     <style>
       :host {
         display: block;
-        max-width: 120px;
+        max-width: 240px;
         text-align: center;
       }
 
