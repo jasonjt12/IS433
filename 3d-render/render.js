@@ -4,6 +4,9 @@ import { STLLoader } from "three/addons/loaders/STLLoader.js";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import Stats from "three/addons/libs/stats.module.js";
 
+// Helper: resolve asset URL relative to this module
+const assetUrl = (p) => (/^https?:\/\//i.test(p) ? p : new URL(p, import.meta.url).href);
+
 // ----------------------------------------------------------------
 createStlRender(
   "LiDAR-mount-render",
@@ -120,9 +123,11 @@ function createStlRender(
     directionalLight.shadow.bias = -0.002;
   }
 
+  const stlUrl = assetUrl(stlFilePath);
+
   const loader = new STLLoader();
   loader.load(
-    stlFilePath,
+    stlUrl,
     function (geometry) {
       const material = new THREE.MeshPhongMaterial({
         color: 0xbbbbbb,
@@ -228,15 +233,7 @@ function createGltfBasicRender(
     scene.add(dir);
   }
 
-  // Resolve URL relative to this module (fixes GitHub Pages subpath issues)
-  const resolveUrl = (p) => {
-    try {
-      return new URL(p, import.meta.url).href;
-    } catch {
-      return p; // if already absolute
-    }
-  };
-  const url = /^https?:\/\//i.test(gltfFilePath) ? gltfFilePath : resolveUrl(gltfFilePath);
+  const url = assetUrl(gltfFilePath);
 
   const loader = new GLTFLoader();
   loader.load(
