@@ -11,8 +11,8 @@ const assetUrl = (p) => (/^https?:\/\//i.test(p) ? p : new URL(p, import.meta.ur
 createStlRender(
   "LiDAR-mount-render",
   400,
-  [-1.5, -1, 1.5],
-  [0.03, 0.03, 0.03],
+  [-1, -1, 1],
+  [0.02, 0.02, 0.02],
   [0, Math.PI / 2, 0],
   false,
   "../assets/lidar_mount.stl",
@@ -61,13 +61,16 @@ function createStlRender(
   subtitle = ""
 ) {
   const element = document.getElementById(id);
+  if (!element) {
+    console.warn(`[STL] Container not found: #${id}`);
+    return;
+  }
   element.style.border = null;
-  let width = element.clientWidth;
 
+  let width = element.clientWidth;
   if (width > window.innerWidth) {
     width = window.innerWidth * 0.7;
     height = (height * width) / 600;
-    console.log(width, height);
   }
 
   const scene = new THREE.Scene();
@@ -76,13 +79,15 @@ function createStlRender(
   scene.add(new THREE.HemisphereLight(0x8d7c7c, 0x494966, 3));
   addShadowedLight(1, 1, 1, 0xffffff, 3.5);
 
-  const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
-  camera.position.z = 3;
-  camera.position.x = 3;
-  camera.position.y = 2;
+  const camera = new THREE.PerspectiveCamera(60, width / height, 0.1, 100);
+  camera.position.set(2, 2, 2);
 
-  const renderer = new THREE.WebGLRenderer();
+  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  renderer.setPixelRatio(window.devicePixelRatio);
   renderer.setSize(width, height);
+  renderer.outputColorSpace = THREE.SRGBColorSpace;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.0;
   element.appendChild(renderer.domElement);
 
   // Subtitle (optional)
@@ -100,71 +105,55 @@ function createStlRender(
   const controls = new OrbitControls(camera, renderer.domElement);
   controls.enableDamping = true;
 
-  // Remove or comment out Stats
-  // const stats = new Stats();
-  // document.body.appendChild(stats.dom);
-
   function addShadowedLight(x, y, z, color, intensity) {
-    const directionalLight = new THREE.DirectionalLight(color, intensity);
-    directionalLight.position.set(x, y, z);
-    scene.add(directionalLight);
-
-    directionalLight.castShadow = true;
-
-    const d = 1;
-    directionalLight.shadow.camera.left = -d;
-    directionalLight.shadow.camera.right = d;
-    directionalLight.shadow.camera.top = d;
-    directionalLight.shadow.camera.bottom = -d;
-
-    directionalLight.shadow.camera.near = 1;
-    directionalLight.shadow.camera.far = 4;
-
-    directionalLight.shadow.bias = -0.002;
+    const dir = new THREE.DirectionalLight(color, intensity);
+    dir.position.set(x, y, z);
+    scene.add(dir);
   }
 
+  // Resolve asset URL same way as GLTF
   const stlUrl = assetUrl(stlFilePath);
 
   const loader = new STLLoader();
   loader.load(
     stlUrl,
-    function (geometry) {
+    (geometry) => {
       const material = new THREE.MeshPhongMaterial({
         color: 0xbbbbbb,
         specular: 0x111111,
         shininess: 20,
       });
       const mesh = new THREE.Mesh(geometry, material);
+
       mesh.position.set(...position);
       mesh.scale.set(...scale);
       mesh.rotation.set(...rotation);
-
       scene.add(mesh);
+
+      // Center controls on mesh
+      const box = new THREE.Box3().setFromObject(mesh);
+      const center = box.getCenter(new THREE.Vector3());
+      controls.target.copy(center);
+      controls.update();
     },
     (xhr) => {
-      console.log((xhr.loaded / xhr.total) + "% loaded");
+      if (xhr.total) console.log(`[STL] ${((xhr.loaded / xhr.total) * 100).toFixed(1)}% loaded`);
     },
-    (error) => {
-      console.log(error);
-    },
+    (err) => console.error("[STL] Load error:", err, "URL:", stlUrl)
   );
 
-  window.addEventListener("resize", onWindowResize, false);
-  function onWindowResize() {
-    render();
-  }
+  window.addEventListener("resize", () => {
+    const newW = element.clientWidth;
+    camera.aspect = newW / height;
+    camera.updateProjectionMatrix();
+    renderer.setSize(newW, height);
+  });
 
   function animate() {
     requestAnimationFrame(animate);
     controls.update();
-    render();
-    // stats.update();
-  }
-
-  function render() {
     renderer.render(scene, camera);
   }
-
   animate();
 }
 
