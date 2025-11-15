@@ -15,7 +15,7 @@ createStlRender(
   [0.02, 0.02, 0.02],
   [0, Math.PI / 2, 0],
   false,
-  "../assets/lidar_mount.stl",
+  "../assets/lidar_mount.STL",
   "Render 1: Interactive LiDAR Mount Render" // subtitle
 );
 
