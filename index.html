@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Project Title</title>
+  <title>IS-433: Design and Integration of a Revolving 3D LiDAR Scanner for Mapping Applications</title>
   <link rel="icon" href="./favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.16.0/cdn/themes/light.css" />
   <script type="module"
@@ -143,7 +143,7 @@
       <h2>1. Introduction</h2>
       <section id="sec-1-1-problem-clarification">
         <h3>1.1. Problem Clarification</h3>
-        <p>dConstruct Robotics is a start-up in the robotics industry. One of the key supporting solutions in their workflow is reality capture through the d.ASH Pack product line, where raw data of an area is captured using high resolution sensors including IMUs, 3D LiDAR scanner, high field of view cameras, and GPS positioning. The raw sensor data is packaged and transferred post-scan to a dedicated workstation, where the d.ASH Xplorer post-processing app performs SLAM, loop-closure, and data fusion to reconstruct an accurate, colorized, and georeferenced 3D representation of the environment.</p>
+        <p>dConstruct Robotics is a start-up in the robotics industry. One of the key supporting solutions in their workflow is reality capture through the d.ASH Pack product line, where raw data of an area is captured using high resolution sensors including IMUs, 3D LiDAR scanner, high field of view cameras, and GPS positioning. The raw sensor data is packaged and transferred post-scan to a dedicated workstation, where the d.ASH Xplorer post-processing app performs SLAM, loop-closure, and data fusion to reconstruct an accurate, colorized, and georeferenced 3D representation of the environment <a href="#ref-1">[1]</a>.</p>
         <image-component
           tag="sample_scan"
           source="assets/scan_pcd.png"
@@ -232,7 +232,7 @@
         </section>
         <section id="sec-2-2-2-morphological-chart-concept-selection">
           <h4>2.2.2. Morphological Chart &amp; Concept Selection</h4>
-          <p>Considering different implementations of each function, 4 initial concepts were developed. </p>
+          <p>Considering different implementations of each function, 4 initial concepts were developed.<a href="#ref-2">[2]</a> </p>
           <table-component subtitle="Table 1: Concept Summary">
             <div id="table-1-concept-summary"></div>
           </table-component>
@@ -277,26 +277,26 @@
         </section>
         <section id="sec-3-2-2-encoder-selection">
           <h4>3.2.2. Encoder Selection</h4>
-          <p>The encoder used need to have a resolution of at least 14-bit before hysteresis. At 14-bit exactly, jitter of one bit is almost equivalent to 3 cm at 80 m. As such, to meet the nominal value, 14-bit encoders are necessary, and higher resolutions would improve robustness.</p>
+          <p>The encoder used need to have a resolution of at least 14-bit before hysteresis. At 14-bit exactly, jitter of one bit is almost equivalent to 3 cm at 80 m. As such, to meet the nominal value, 14-bit encoders are necessary, and higher resolutions would improve robustness<a href="#ref-3">[3]</a>.</p>
           <p>
             \( \tan^{-1}\!\left(\frac{30\,\mathrm{mm}}{80\,\mathrm{m}}\right)
             \approx 0.0214859163^{\circ}
             \approx \frac{360^{\circ}}{2^{14}}
             = 0.02197265625^{\circ}\!/\mathrm{bit} \)
           </p>
-          <p>Preliminary research shows that optical encoder such as the Broadcom AR35-T25 would yield the most linear and accurate result, assuming proper mechanical fitment and mounting. They are, however, more costly and sensitive to mounting and environmental conditions.</p>
+          <p>Preliminary research shows that optical encoder such as the Broadcom AR35-T25 would yield the most linear and accurate result, assuming proper mechanical fitment and mounting <a href="#ref-4">[4]</a>. They are, however, more costly and sensitive to mounting and environmental conditions.</p>
           <image-component
             tag="optical_encoder"
             source="assets/amt_encoder.png"
             subtitle="Image 15: AMT Optical Encoder"
           ></image-component>
-          <p>Magnetic encoders are the easiest to implement, as most motor manufacturers offer them with the motor along with the diametric magnet, and provide extensive code documentation, though linearity can degrade with temperature. Additionally, commonly used encoders are only available at 14-bit, except for the MT6835, which is capable of 21-bit measurement through built-in hysteresis, calibration, and filtering, significantly more than is required.</p>
+          <p>Magnetic encoders are the easiest to implement, as most motor manufacturers offer them with the motor along with the diametric magnet, and provide extensive code documentation, though linearity can degrade with temperature. Additionally, commonly used encoders are only available at 14-bit, except for the MT6835, which is capable of 21-bit measurement through built-in hysteresis, calibration, and filtering, significantly more than is required <a href="#ref-5">[5]</a>.</p>
           <image-component
             tag="magnetic_encoder"
             source="assets/magnetic_encoder.png"
             subtitle="Image 16: Magnetic Encoders"
           ></image-component>
-          <p>Capacitive encoders provide a middle ground, not affected by dust and contaminants, similar to the magnetic encoders, and not affected by heat over time. However, there are very limited options as there is only one manufacturer (CUI/SameSky) and is limited to at most 14 bits, for example the AMT222B.</p>
+          <p>Capacitive encoders provide a middle ground, not affected by dust and contaminants, similar to the magnetic encoders, and not affected by heat over time. However, there are very limited options as there is only one manufacturer (CUI/SameSky) and is limited to at most 14 bits, for example the AMT222B <a href="#ref-6">[6]</a>.</p>
           <image-component
             tag="capacitive_encoder"
             source="assets/capacitive_encoder.png"
@@ -305,7 +305,7 @@
         </section>
         <section id="sec-3-2-3-motor-driver-mcu-board">
           <h4>3.2.3. Motor Driver MCU Board</h4>
-          <p>For the MCU board, research suggested that using open-source and hobby-level motor control platforms such as ODrive, VESC, or SimpleFOC would be sufficient. This is due to the low rotational speed and power requirement of the device. The limiting factor would then be the clock speed of the MCU, which needs to collect angle data while performing motor control functions.</p>
+          <p>For the MCU board, research suggested that using open-source and hobby-level motor control platforms such as ODrive, VESC, or SimpleFOC would be sufficient <a href="#ref-7">[7]</a>. This is due to the low rotational speed and power requirement of the device. The limiting factor would then be the clock speed of the MCU, which needs to collect angle data while performing motor control functions.</p>
           <p>STM32G431 series units are chosen as the MCU models for this project, because of the high processing speeds for finer motor controls, wide peripheral options tailor-made for motor control applications, and support from SimpleFOC.</p>
         </section>
         <section id="sec-3-2-4-slip-ring">
@@ -322,7 +322,7 @@
             source="assets/iperf_output.png"
             subtitle="Image 19: Iperf3 Output over Slip Ring Test"
           ></image-component>
-          <p>We also ordered a miniature 7.9mm slip ring for testing which required the splicing of multiple slip-ring channels together to support the high power draw of the LiDAR. Preliminary testing using iperf3 shows that this small slip ring could transmit data within the motor environment at much higher than 100Mbps with no packet loss. For now, we can conclude that shielding is not a priority.</p>
+          <p>We also ordered a miniature 7.9mm slip ring for testing which required the splicing of multiple slip-ring channels together to support the high power draw of the LiDAR. Preliminary testing using iperf3 shows that this small slip ring could transmit data within the motor environment at much higher than 100Mbps with no packet loss <a href="#ref-8">[8]</a>. For now, we can conclude that shielding is not a priority.</p>
           </section>
       </section>
       <section id="sec-3-3-mechanical-design-considerations">
@@ -346,7 +346,7 @@
             source="assets/3dp_mount_clamshell.png"
             subtitle="Image 21: 3D Printed Clamshell LiDAR Mount"
           ></image-component>
-          <p>3D printing offers rapid iteration and allows complex geometries such as internal cable-routing. However, achieving sufficient thermal stability requires high-temperature materials. PLA is unsuitable due to its 55–60 °C glass transition temperature. For the first prototype, carbon-fiber–filled ABS was selected because of its higher stiffness, improved dimensional accuracy, and a 100 °C glass transition temperature. Future production options include PEEK or carbon-filled Nylon PA12 for increased rigidity.</p>
+          <p>3D printing offers rapid iteration and allows complex geometries such as internal cable-routing. However, achieving sufficient thermal stability requires high-temperature materials. PLA is unsuitable due to its 55–60 °C glass transition temperature <a href="#ref-9">[9]</a>. For the first prototype, carbon-fiber–filled ABS was selected because of its higher stiffness, improved dimensional accuracy, and a 100 °C glass transition temperature <a href="#ref-9">[9]</a>. Future production options include PEEK or carbon-filled Nylon PA12 for increased rigidity <a href="#ref-10">[10]</a>.</p>
           <p>Sheet metal bending provides high rigidity at low weight but may require additional stiffening (e.g. welded ribs or tight-radius bends) due to the small scale of the module. This method is a viable alternative if 3D-printed parts cannot provide the required stiffness.</p>
           <image-component
             tag="ronin-mount"
@@ -354,20 +354,28 @@
             subtitle="Image 22: Ronin Gimbal Carbon Fiber Tube Mount"
           ></image-component>
           <p>Tubular structures such as carbon-fiber tubes or aluminium pipes provide excellent rigidity and are widely used in gimbals. Aluminium tubing is readily available, and suitable for more rapid prototyping. Carbon-fiber tubes offer the highest stiffness-to-weight ratio but may have longer fabrication cycles and higher cost. A hybrid design is also possible, where a carbon-fiber or aluminium tube forms the primary structural element, with lightweight 3D-printed housings for mounting features and aesthetics.</p>
-          <div id="LiDAR-mount-render"></div>
-          <p>The mount geometry should be minimized to avoid blocking the LiDAR’s field of view while maintaining mechanical support. The current design achieves 290° vertical FoV with lofts and clean cable-routing paths. </p>
           <div class="two-col">
+            <div id="LiDAR-mount-render"></div>
+            <image-component
+              tag="lidar_mount_FOV"
+              source="assets/lidar_mount_FOV.png"
+              subtitle="Image 22: LiDAR Mount Assembly"
+            ></image-component>
+          </div>
+          <p>The mount geometry should be minimized to avoid blocking the LiDAR’s field of view while maintaining mechanical support. The current design achieves 290° vertical FoV with lofts and clean cable-routing paths. </p>
+          <!-- <div class="two-col"> -->
             <image-component
               tag="HC_normal_view"
               source="assets/fixed_lidar_fov.png"
               subtitle="Image 23: LiDAR Field of View with Static Mount"
             ></image-component>
-            <video-component 
+            <!-- <video-component 
               tag="Spinning_LiDAR_Render" 
               source="assets/mock_render.mp4"
               subtitle="Video 1: Mock Field of View with Spinning LiDAR Module (290° Vertical FoV)"
-            ></video-component>
-          </div>
+            ></video-component> -->
+          <!-- </div> -->
+          <div id="render2"></div>
           <p>The prototype design was validated by FEA. Under worst-case loading, displacement was found to be below 0.02mm and peak stress is 311kPa, far below the >60MPa yield strength of ABS-CF20. These results validate that the design meets stiffness, thermal, and structural requirements and forms a basis for subsequent iterations.</p>
           <div class="two-col">
           <image-component
@@ -393,7 +401,7 @@
             source="assets/software_diagram.png"
             subtitle="Image 26: Motor Board Software Architecture Diagram"
           ></image-component>
-          <p>We selected a SimpleFOC-based motor control approach due to its strong community support, proven use in similar projects, and modular software structure that allows for rapid adaptation. The motor board firmware collects and buffers angle measurements on each trigger pulse, captures intermediate samples between pulses, and periodically transmits these angle values over SPI to the d.ASH Pack HC compute unit for timestamping and storage. The Jetson compute module receives the same trigger pulse and records an absolute timestamp using its onboard clock, allowing it to convert the motor board’s relative-time angle data into absolute-time angle values, for further processing in the separate SLAM workflow.</p>
+          <p>We selected a SimpleFOC-based motor control approach due to its strong community support, proven use in similar projects, and modular software structure that allows for rapid adaptation <a href="#ref-7">[7]</a>. The motor board firmware collects and buffers angle measurements on each trigger pulse, captures intermediate samples between pulses, and periodically transmits these angle values over SPI to the d.ASH Pack HC compute unit for timestamping and storage. The Jetson compute module receives the same trigger pulse and records an absolute timestamp using its onboard clock, allowing it to convert the motor board’s relative-time angle data into absolute-time angle values, for further processing in the separate SLAM workflow.</p>
         </section>
         <section id="sec-3-4-2-kinematics-transforms">
           <h4>3.4.2. Kinematics Transforms</h4>
@@ -422,13 +430,13 @@
           <video-component 
               tag="Test_Bench_demo" 
               source="assets/test_bench.mp4"
-              subtitle="Video 2: Test Bench Prototype Demonstration"
+              subtitle="Video 1: Test Bench Prototype Demonstration"
           ></video-component>
           <p></p>
           <video-component 
               tag="Test_Bench_Lidar" 
               source="assets/pandar_viewer.mp4"
-              subtitle="Video 3: LiDAR Scan Output"
+              subtitle="Video 2: LiDAR Scan Output"
           ></video-component>
           <p>For the current quarter, this project has been allocated SG$3,500 to develop an initial proof-of-concept. So far approximately SG$500 has been used to purchase components for individual testing. </p>
           <p>The current prototype is a test bench as the preliminary integration testing of all purchased component including LiDAR, SimpleFOC motor driver board, MCU development board, slip ring, motor, encoders, and mechanical and PCB fabrication.</p>
@@ -437,8 +445,30 @@
         </section>
         <section id="sec-4-2-2-trigger-synchronization">
           <h4>4.2.2. Trigger Synchronization</h4>
+          <div class="two-col">
+            <image-component
+              tag="trigger_prototype"
+              source="assets/trigger_prototype.jpg"
+              subtitle="Image 28: Trigger Synchronization Prototype Board"
+            ></image-component>
+            <image-component
+              tag="trigger_output"
+              source="assets/trigger_output.png"
+              subtitle="Image 29: Trigger Synchronization Output Waveform"
+            ></image-component>
+          </div>
+          <image-component
+            tag="trigger_test"
+            source="assets/trigger_test.jpg"
+            subtitle="Image 30: Trigger Synchronization Tests"
+          ></image-component>
           <p>The trigger-synchronization pulse for the HC was not available during early integration, so development of the synchronization MCU board progressed in parallel, as it is essential for aligning encoder measurements with LiDAR data. </p>
           <p>We redesigned the company’s existing controller board from the STM32F072 to the STM32F411 and implemented the new hardware-timer architecture previously validated earlier on a Nucleo-32 development board, achieving stable, repeatable timing with nanohertz-level deviation. The result is the v1.6 MCU board, which successfully demonstrated reliable timer-based trigger generation and GPS PPS support for absolute time reference. </p>
+          <image-component
+            tag="mcu_board_v1.7"
+            source="assets/dpackMCUBoard v1.7.png"
+            subtitle="Image 31: Trigger Synchronization v1.7 MCU Board"
+          ></image-component>
           <p>After this milestone, the design was handed over to another engineer, who extended it into v1.7 and v1.8 to add more I/O. With these revisions completed and tested, the trigger-synchronization subsystem is now fully functional, enabling synchronized LiDAR–encoder data collection for subsequent transform validation.</p>
         </section>
       </section>
@@ -454,7 +484,7 @@
       <image-component
         tag="house_of_quality"
         source="assets/house.png"
-        subtitle="Image 30: House of Quality Needs-Metrics Matrix"
+        subtitle="Image 32: House of Quality Needs-Metrics Matrix"
       ></image-component>
     </section>
     <section id="sec-app-b-concept-screening">
@@ -462,15 +492,15 @@
       <image-component
         tag="competitor_analysis_matrix"
         source="assets/market_analysis.png"
-        subtitle="Image 31: Market/Competitor Analysis Chart"
+        subtitle="Image 33: Market/Competitor Analysis Chart"
       ></image-component>
-      <p>Looking at the competitors, some functional concepts used are dual-axis scanner by Leica, Actuated LiDAR unit by XGrids, and Dual LiDAR setup by NavVis. NavVis increases their field of view by having two standard LiDAR scanners oriented 90 degrees to each other, effectively doubling the vertical FOV from ~30° to ~60° at the cost of added significant bulk. Leica uses their expertise to build an integrated scanner solution using their dual axis rotating scanning unit within an enclosed dome to achieve 270° vertical FOV. XGrids opts to actuate their LiDAR scanner to cover more angles in a scan frame to increase the vertical FOV. They managed to match the field-of-view of Leica BLK2GO, in a slightly bulkier package. </p>
+      <p>Looking at the competitors, some functional concepts used are dual-axis scanner by Leica, Actuated LiDAR unit by XGrids, and Dual LiDAR setup by NavVis. NavVis increases their field of view by having two standard LiDAR scanners oriented 90 degrees to each other, effectively doubling the vertical FOV from ~30° to ~60° at the cost of added significant bulk <a href="#ref-11">[11]</a>. Leica uses their expertise to build an integrated scanner solution using their dual axis rotating scanning unit within an enclosed dome to achieve 270° vertical FOV <a href="#ref-12">[12]</a>. XGrids opts to actuate their LiDAR scanner to cover more angles in a scan frame to increase the vertical FOV <a href="#ref-13">[13]</a>. They managed to match the field-of-view of Leica BLK2GO, in a slightly bulkier package. </p>
       <p>When developing our approach, it is important to aim for the top right region of the chart, creating something that increases the LiDAR vertical FOV, while still being compact.</p>
       <p>Taking their concepts and adding a hemispherical (180° x 360°) LiDAR scanner, we can do a preliminary concept screening using a Pugh matrix, assigning plusses and minuses to concepts and the related criteria which is the top 5 user needs and metrics when compared to the benchmark d.ASH Pack HC with a static LiDAR unit. </p>
       <image-component
         tag="concept_screening_matrix"
         source="assets/screening.png"
-        subtitle="Image 32: Concept Screening Matrix"
+        subtitle="Image 34: Concept Screening Matrix"
       ></image-component>
       <p>It is apparent that the dual LiDAR setup ranks worse. The hemispherical LiDAR suffers from the lack of resolution compared to typical high-resolution scanners used in reality capture. However, we should still monitor the development of such technologies as more companies are releasing hemispherical LiDARs. For the dual-axis scanner, to develop a similar solution, it would require a lot of technology development which cannot match the experience Leica has and is deemed not feasible. </p>
       <p>This leaves us with actuated lidar as the screened concept of operations.</p>
@@ -480,7 +510,7 @@
       <image-component
         tag="concept_selection_matrix"
         source="assets/concept_selection.png"
-        subtitle="Image 33: Concept Selection Matrix"
+        subtitle="Image 35: Concept Selection Matrix"
       ></image-component>
       <p>For concept selection, the top 5 metrics from the priority decided through the House of Quality is chosen and assigned a weightage.</p>
       <p>1.	Scan without much manual manoeuvring and handling</p>
@@ -566,19 +596,20 @@
       <sl-divider></sl-divider>
       <h2>References</h2>
       <ul>
-        <li>
-          Brody, J. E. (2007, December 11). Mental reserves keep brain agile. The New York Times. Retrieved from
-          http://www.dowjones.com/factiva/
-        </li>
-        <li>
-          Chamberlin, J., Novotney, A., Packard, E., & Price, M. (2008, May). Enhancing worker well-being: Occupational
-          health psychologists convene to share their research on work, stress, and health. Monitor on Psychology,
-          39(5), 26-29.
-        </li>
-        <li>
-          Jones, T. J., & Fields, N. (2003). Emotional quotient and personality. E-Journal of Applied Psychology, 2(2),
-          38-45. Retrieved from http://ejournalappliedpsyc/index.php/ejap
-        </li>
+        <li id="ref-1">[1] “D.ASH Pack | DConstruct Robotics,” dConstruct. https://www.dconstruct.co/dashpack</li>
+        <li id="ref-2">[2] “Brushless Vs Brushed DC Motors: When and Why to Choose One Over the Other  | Article | MPS.” https://www.monolithicpower.com/en/learning/resources/brushless-vs-brushed-dc-motors?srsltid=AfmBOoo0qau_E6jeISnB_hZ6Ft3nw56Arb3O2ePmMJyfWR9MvAApBbp7 </li>
+        <li id="ref-3">[3] B. J. Smoot, “Capacitive, Magnetic, and Optical Encoders – Comparing the Technologies | Same Sky,” Same Sky, Jun. 25, 2019. https://www.sameskydevices.com/blog/capacitive-magnetic-and-optical-encoders-comparing-the-technologies?srsltid=AfmBOoqxqLMpnxJoXqp6E4cj9HJw0ammtQsJF28KQIAlrSGTh6pcsmV4</li>
+        <li id="ref-4">[4] “AR35-T25 Series 25-Bit Through Hole Reflective Encoder ASIC.” https://www.broadcom.com/products/motion-control-encoders/absolute-encoders/single-turn-encoders/ar35-t25-series </li>
+        <li id="ref-5">[5] MagnTek, “21-Bit High Accuracy Magnetic Angle Encoder IC,” Dec. 2022. [Online]. Available: https://www.magntek.com.cn/upload/pdf/202407/MT6835_Rev.1.3.pdf </li>
+        <li id="ref-6">[6] CUI Devices, “MODULAR ABSOLUTE ENCODER.” [Online]. Available: https://www.sameskydevices.com/product/resource/amt22-v.pdf </li>
+        <li id="ref-7">[7] A. Skuric, “Arduino Simple Field Oriented Control project,” Simple FOC. https://simplefoc.com/</li>
+        <li id="ref-8">[8] V. Gueant, “iPerf - The TCP, UDP and SCTP network bandwidth measurement tool.” https://iperf.fr/ </li>
+        <li id="ref-9">[9] J. O’Connell, “Glass Transition Temperatures of PLA, PETG & ABS,” All3DP, Apr. 20, 2024. https://all3dp.com/2/pla-petg-glass-transition-temperature-3d-printing/ </li>
+        <li id="ref-10">[10] “The strongest materials for 3D printing | Xometry Pro,” Xometry Pro, Mar. 05, 2025. https://xometry.pro/en/articles/3d-printing-strong-materials/ </li>
+        <li id="ref-11">[11] NavVis GmbH, “NavVis VLX 3 wearable lidar scanner,” NavVis GmbH. https://www.navvis.com/vlx-3 </li>
+        <li id="ref-12">[12] “Leica BLK2GO - Mobile Scanning.” https://shop.leica-geosystems.com/leica-blk/blk2go/overview?srsltid=AfmBOooWcJ-xC68fTOcuc43_aYbW_JvuCpVH14hMxhm8OMSrKKJ_2Mg8</li>
+        <li id="ref-13">[13] “Lixel L2 Pro-XGRIDS-3D Reconstruction-Spatial Computing-Handheld Scanner.” https://xgrids.com/lixell2pro?gad_source=1&gad_campaignid=22052647086&gbraid=0AAAAAq3MVF9xeHOvlLUXbACik5sl3c9YH&gclid=Cj0KCQiA5abIBhCaARIsAM3-zFVC8M43bCzuXDi-s2z9slC1YZy5ido_uIR7dsa3vGnmI5tUNyWEeZ0aAsuaEALw_wcB </li>
+        <li id="ref-14">[14] “Learn how to Install Frameless Motors | Celera Motion,” Applimotion Direct Drive Motors, Nov. 18, 2024. https://www.celeramotion.com/frameless-motors/support/technical-papers/how-to-install-a-frameless-motor/</li>
       </ul>
     </div>
   </div>
