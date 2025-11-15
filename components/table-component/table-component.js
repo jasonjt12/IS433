@@ -9,6 +9,16 @@ new gridjs.Grid({
   ],
 }).render(document.getElementById("table-1"));
 
+new gridjs.Grid({
+  columns: ["Concept", "Name", "Key Features"],
+  data: [
+    ["A", "Baseline Continuous-Rotation BLDC System", "Ungeared BLDC motor, magnetic encoder, external processing"],
+    ["B", "Reciprocating Test Platform", "Geared BLDC motor, optical encoder, onboard processing, reciprocating motion"],
+    ["C", "IMU Test Platform", "Brushed geared DC motor, IMU for angle, external processing"],
+    ["D", "Compact and Integrated System", "Frameless BLDC motor, capacitive encoder, highly integrated, low weight"],
+  ],
+}).render(document.getElementById("table-1-concept-summary"));
+
 class TableComponent extends HTMLElement {
   static get observedAttributes() {
     return ["subtitle"];

@@ -10,11 +10,32 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.16.0/cdn/themes/light.css" />
   <script type="module"
     src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.16.0/cdn/shoelace-autoloader.js"></script>
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@v0.166.1/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@v0.166.1/examples/jsm/"
+    }
+  }
+  </script>
 
+  <script type="module"
+    src="https://cdn.jsdelivr.net/npm/gridjs/dist/gridjs.umd.js"></script>
   <link rel="stylesheet" href="./index.css">
   <link rel="stylesheet" href="./components/team-member/team-member.css">
   <script type="module" src="./components/team-member/team-member.js"></script>
   <link rel="stylesheet" href="./components/table-of-content/table-of-content.css">
+  <link rel="stylesheet" href="./components/image/image-component.css">
+  <script type="module" src="./3d-render/render.js"></script>
+  <script type="module" src="./components/image/image-component.js"></script>
+  <script type="module" src="./components/video/video.js"></script>
+  <script type="module" src="./components/table-component/table-component.js"></script>
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['\\(', '\\)']] }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 
 <body>
@@ -28,29 +49,6 @@
     </div>
 
     <!-- This is a divide from the shoelace library for aesthetic purpose -->
-    <sl-divider></sl-divider>
-
-    <div>
-      <h2>Abstraction</h2>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-        magna
-        aliqua. Tincidunt ornare massa eget egestas. At tellus at urna condimentum mattis pellentesque id nibh tortor.
-        Elementum sagittis vitae et leo duis ut diam. Morbi tristique senectus et netus et malesuada fames.
-        Suspendisse
-        ultrices gravida dictum fusce ut placerat orci. Risus nullam eget felis eget nunc lobortis mattis aliquam
-        faucibus
-        (Brody, 2007). Eget sit amet tellus cras adipiscing enim eu turpis egestas. Aliquet nibh praesent tristique
-        magna
-        sit amet purus. Adipiscing bibendum est ultricies integer quis auctor elit sed. Fermentum et sollicitudin ac
-        orci
-        phasellus egestas tellus rutrum. At in tellus integer feugiat scelerisque varius morbi enim nunc. Volutpat
-        blandit
-        aliquam etiam erat velit scelerisque in. Id diam maecenas ultricies mi eget mauris pharetra et. Nec dui nunc
-        mattis
-        enim ut tellus elementum sagittis vitae.
-      </p>
-    </div>
 
     <sl-divider></sl-divider>
 
@@ -59,30 +57,531 @@
       <h2>Table of Contents</h2>
       <sl-tree>
         <sl-tree-item expanded>
-          <a href="./chart/">Chart</a>
-          <sl-tree-item>
-            <a href="./chart/#pie-doughnut">1. Pie and Doughnut Chart</a>
-          </sl-tree-item>
-          <sl-tree-item>
-            <a href="./chart/#bar">2. Bar Chart</a>
-          </sl-tree-item>
-          <sl-tree-item>
-            <a href="./chart/#line">3. Line Chart</a>
-          </sl-tree-item>
-          <sl-tree-item>
-            <a href="./chart/#scatter">4. Scatter Chart</a>
+          <a href="#sec-1-introduction">1. Introduction</a>
+          <sl-tree-item><a href="#sec-1-1-problem-clarification">1.1. Problem Clarification</a></sl-tree-item>
+          <sl-tree-item><a href="#sec-1-2-problem-statement">1.2. Problem Statement</a></sl-tree-item>
+          <sl-tree-item><a href="#sec-1-3-value-map-value-proposition">1.3. Value Map & Value Proposition</a></sl-tree-item>
+        </sl-tree-item>
+
+        <sl-tree-item expanded>
+          <a href="#sec-2-conceptual-design-realisation">2. Conceptual Design & Realisation</a>
+          <sl-tree-item><a href="#sec-2-1-user-needs-and-metrics">2.1. User Needs and Metrics</a></sl-tree-item>
+          <sl-tree-item expanded>
+            <a href="#sec-2-2-concept-design">2.2. Concept Design</a>
+            <sl-tree-item><a href="#sec-2-2-1-actuated-lidar-functional-analysis">2.2.1. Actuated LiDAR: Functional Analysis</a></sl-tree-item>
+            <sl-tree-item><a href="#sec-2-2-2-morphological-chart-concept-selection">2.2.2. Morphological Chart & Concept Selection</a></sl-tree-item>
           </sl-tree-item>
         </sl-tree-item>
 
-        <sl-tree-item>
-          <a href="./diagram/">Interactive diagram</a>
+        <sl-tree-item expanded>
+          <a href="#sec-3-detail-design">3. Detail Design</a>
+          <sl-tree-item><a href="#sec-3-1-system-architecture-and-boundaries">3.1. System Architecture and Boundaries</a></sl-tree-item>
+          <sl-tree-item expanded>
+            <a href="#sec-3-2-electrical-design">3.2. Electrical Design</a>
+            <sl-tree-item><a href="#sec-3-2-1-electrical-architecture">3.2.1. Electrical Architecture</a></sl-tree-item>
+            <sl-tree-item><a href="#sec-3-2-2-encoder-selection">3.2.2. Encoder Selection</a></sl-tree-item>
+            <sl-tree-item><a href="#sec-3-2-3-motor-driver-mcu-board">3.2.3. Motor Driver MCU Board</a></sl-tree-item>
+            <sl-tree-item><a href="#sec-3-2-4-slip-ring">3.2.4. Slip Ring</a></sl-tree-item>
+          </sl-tree-item>
+          <sl-tree-item expanded>
+            <a href="#sec-3-3-mechanical-design-considerations">3.3. Mechanical Design Considerations</a>
+            <sl-tree-item><a href="#sec-3-3-1-motor-selection">3.3.1. Motor Selection</a></sl-tree-item>
+            <sl-tree-item><a href="#sec-3-3-2-lidar-mounting-enclosure">3.3.2. LiDAR Mounting & Enclosure</a></sl-tree-item>
+          </sl-tree-item>
+          <sl-tree-item expanded>
+            <a href="#sec-3-4-software-driver-concept">3.4. Software/Driver Concept</a>
+            <sl-tree-item><a href="#sec-3-4-1-simplefoc">3.4.1. SimpleFOC</a></sl-tree-item>
+            <sl-tree-item><a href="#sec-3-4-2-kinematics-transforms">3.4.2. Kinematics Transforms</a></sl-tree-item>
+          </sl-tree-item>
         </sl-tree-item>
 
+        <sl-tree-item expanded>
+          <a href="#sec-4-prototyping-testing-progress">4. Prototyping & Testing Progress</a>
+          <sl-tree-item><a href="#sec-4-1-overall-prototyping-testing-timeline-progress">4.1. Overall Prototyping and Testing Timeline and Progress</a></sl-tree-item>
+          <sl-tree-item expanded>
+            <a href="#sec-4-2-current-prototypes">4.2. Current Prototypes</a>
+            <sl-tree-item><a href="#sec-4-2-1-test-bench">4.2.1. Test Bench</a></sl-tree-item>
+            <sl-tree-item><a href="#sec-4-2-2-trigger-synchronization">4.2.2. Trigger Synchronization</a></sl-tree-item>
+          </sl-tree-item>
+        </sl-tree-item>
+
+        <sl-tree-item><a href="#sec-5-conclusion">5. Conclusion</a></sl-tree-item>
+
+        <sl-tree-item><a href="#sec-app-a-house-of-quality">Appendix A: House of Quality</a></sl-tree-item>
+        <sl-tree-item><a href="#sec-app-b-concept-screening">Appendix B: Concept Screening</a></sl-tree-item>
+        <sl-tree-item><a href="#sec-app-c-concept-selection">Appendix C: Concept Selection</a></sl-tree-item>
+
+        <sl-tree-item expanded>
+          <a href="#sec-app-e-detailed-prototyping-testing-timeline">Appendix E: Detailed Prototyping and Testing Timeline</a>
+
+          <sl-tree-item expanded>
+            <a href="#sec-app-e-prototyping-timeline">Prototyping Timeline</a>
+            <sl-tree-item><a href="#sec-app-e-phase-1">Phase 1: Planning, Procurement, and Component Evaluation</a></sl-tree-item>
+            <sl-tree-item><a href="#sec-app-e-phase-2">Phase 2: Fabrication and Preliminary Functional Prototype</a></sl-tree-item>
+            <sl-tree-item><a href="#sec-app-e-phase-3">Phase 3: Iterative Improvements and Frameless Motor Evaluation</a></sl-tree-item>
+            <sl-tree-item><a href="#sec-app-e-phase-4">Phase 4: Evaluation, Version B2.0 Development, and Finalization</a></sl-tree-item>
+          </sl-tree-item>
+
+          <sl-tree-item expanded>
+            <a href="#sec-app-e-testing-timeline">Testing Timeline</a>
+            <sl-tree-item><a href="#sec-app-e-testing-phase-1">Phase 1: Bench Testing and Component Familiarisation</a></sl-tree-item>
+            <sl-tree-item><a href="#sec-app-e-testing-phase-2">Phase 2: Preliminary Integration Testing</a></sl-tree-item>
+            <sl-tree-item><a href="#sec-app-e-testing-phase-3">Phase 3: Frameless Motor and Optical Encoder Evaluation</a></sl-tree-item>
+            <sl-tree-item><a href="#sec-app-e-testing-phase-4">Phase 4: User Acceptance Testing</a></sl-tree-item>
+          </sl-tree-item>
+        </sl-tree-item>
         <sl-tree-item>
-          <a href="./3d-render/">3D Render</a>
+          <a href="#references">References</a>
         </sl-tree-item>
       </sl-tree>
     </div>
+
+    <sl-divider></sl-divider>
+
+    <!-- Sections -->
+    <section id="sec-1-introduction">
+      <h2>1. Introduction</h2>
+      <section id="sec-1-1-problem-clarification">
+        <h3>1.1. Problem Clarification</h3>
+        <p>dConstruct Robotics is a start-up in the robotics industry. One of the key supporting solutions in their workflow is reality capture through the d.ASH Pack product line, where raw data of an area is captured using high resolution sensors including IMUs, 3D LiDAR scanner, high field of view cameras, and GPS positioning. The raw sensor data is packaged and transferred post-scan to a dedicated workstation, where the d.ASH Xplorer post-processing app performs SLAM, loop-closure, and data fusion to reconstruct an accurate, colorized, and georeferenced 3D representation of the environment.</p>
+        <image-component
+          tag="sample_scan"
+          source="assets/scan_pcd.png"
+          subtitle="Image 1: Sample point cloud data captured using d.ASH Pack HC at Supertree Park, Gardens by the Bay"
+        ></image-component>
+        <p></p>
+        <div class="two-col">
+          <image-component
+            tag="d.ASH_Pack_HC"
+            source="assets/dash_pack_HC.png"
+            subtitle="Image 2: d.ASH Pack HC concept render"
+          ></image-component>
+          <image-component
+            tag="d.ASH_Pack_SL"
+            source="assets/dash_pack_SL.png"
+            subtitle="Image 3: d.ASH Pack SL marketing material"
+          ></image-component>
+        </div>
+
+        <p>dConstruct is currently in the process of transitioning from the backpack mounted version of d.ASH Pack, into an upcoming handheld version, d.ASH Pack HC.</p>
+        <image-component
+          tag="scan_output_back"
+          source="assets/scan_output_back.gif"
+          subtitle="Image 4: Back Output during a d.ASH Pack HC scan session"
+        ></image-component>
+        <p></p>
+        <div class="two-col">
+          <image-component
+            tag="scan_output_left"
+            source="assets/scan_output_left.gif"
+            subtitle="Image 5: Left Output during a d.ASH Pack HC scan session"
+          ></image-component>
+          <image-component
+            tag="scan_output_right"
+            source="assets/scan_output_right.gif"
+            subtitle="Image 6: Right Output during a d.ASH Pack HC scan session"
+          ></image-component>
+        </div>
+        <p>This transition period has revealed some weaknesses in the current design of the HC. Firstly, handheld scanning is physically demanding because users need to continuously manoeuvre the 2 kg unit over an extended period to compensate for the LiDAR scanner unit’s limited vertical field-of-view of 31 degrees. As the narrow field-of-view scanner is rigidly mounted, a typical scan would result in disproportionately denser point cloud scans in the front and sides, and sparser coverage on the ground and ceiling, even after user manoeuvring to cover more angles. This uneven coverage affects multi-floor scans, where SLAM struggles to maintain quality. </p>
+        <p>Secondly, upon post-processing of data, we also discovered that operator fatigue reduces the stability of hand movements, which lowers scan consistency and increases the likelihood of incomplete or poor-quality point-cloud data. These issues indicate that usability and adoption of the HC can still be improved. </p>
+      </section>
+      <section id="sec-1-2-problem-statement"><h3>1.2. Problem Statement</h3>
+        <p>From the user insights and problems encountered during testing, we can synthesize the main points for improvement for the HC in its current state. Firstly, it is difficult to maintain continuous and stable tilt and roll angles, due to the physical limitations of the device. Secondly, can quality remains highly dependent on skill and endurance, leading to re-scans when fatigue sets in. In summary, the problem statement can be narrowed down to: “The complexity of the current HC scanning workflow prevents users from reliably producing high-quality scans”</p>
+        <p>This problem is critical to the company, who wishes to gain competitive advantage by minimising the effect of user skill to the quality of the scans. This directly translates into the satisfaction of clients and customers in the construction and inspection industry, such as Autodesk and Gammon, who drives the market requirements, and want to get consistent and high-quality scan data, while minimising the training and familiarisation time for their staff.</p>
+      </section>
+      <section id="sec-1-3-value-map-value-proposition"><h3>1.3. Value Map &amp; Value Proposition</h3>
+        <image-component
+          tag="value_map"
+          source="assets/value_map.png"
+          subtitle="Image 7: Project Value Map"
+        ></image-component>
+        <p>This project creates value by introducing a LiDAR field-of-view–expanding mechanism that simultaneously simplifies the scanning workflow and reduces operator effort. By lowering operator-dependent variability, simplifying scanning motion, and improving scan completeness, the proposed module acts as both a pain reliever and a gain creator. </p>
+        <p>As such, this project aims to enhance the current handheld 3D scanning by developing a mechanism to expand LiDAR coverage and create a simplified, more ergonomic user experience. </p>
+        <p>The scope of this project is limited to the LiDAR scanning component of the HC, designed as a drop-in replacement for the static-mounted LiDAR unit currently used across all d.ASH Pack models. The work focuses on the LiDAR and supporting electromechanical subsystems, including mechanism design, integration of module-specific algorithms, and testing and validation relating to the scanning mechanism. Broader system-level software, SLAM development, and end-to-end platform integration are outside the project boundary. </p>
+      </section>
+    </section>
+
+    <section id="sec-2-conceptual-design-realisation">
+      <h2>2. Conceptual Design &amp; Realisation</h2>
+      <section id="sec-2-1-user-needs-and-metrics"><h3>2.1. User Needs and Metrics</h3>
+        <p>Having established the value proposition, we can translate the user insights into user need statements, and a related, quantifiable user specification.</p>
+        <image-component
+          tag="user_Insights_needs"
+          source="assets/insights_needs.png"
+          subtitle="Image 8: User Insights and Needs Table"
+        ></image-component>
+        <p>Following that, importance values were assigned to each user specification using the House of Quality needs–metrics matrix, and marginal and ideal target values were established using market competitor benchmarks and performance levels observed in existing LiDAR scanner systems. (See <a href="#sec-app-a-house-of-quality">Appendix A</a> for  the full House of Quality matrix)</p>
+        <image-component
+          tag="user_needs_metrics"
+          source="assets/user_needs_metrics.png"
+          subtitle="Image 9: User Needs and Metrics Table"
+        ></image-component>
+      </section>
+      <section id="sec-2-2-concept-design">
+        <h3>2.2. Concept Design</h3>
+        <p>An initial concept screening were performed to narrow down the design direction. We compared how other companies increase the scanners’ vertical field-of-view, and narrowed down the potential concept into developing a mechanism to actuate the LiDAR scanner (see <a href="#sec-app-b-concept-screening">Appendix B</a> for more details on concept screening).</p>
+        <section id="sec-2-2-1-actuated-lidar-functional-analysis">
+          <h4>2.2.1. Actuated LiDAR: Functional Analysis</h4>
+          <image-component
+          tag="Functional_Analysis"
+          source="assets/function_analysis.png"
+          subtitle="Image 10: Functional Analysis Diagram"
+          ></image-component>
+          <p>The actuated LiDAR concept is then further decomposed into its functional elements to create a robust and accurate system to replace the static LiDAR scanner onboard the HC. Similar to the existing static LiDAR scanner, the actuated module is referenced to a fixed datum on the HC, which defines the coordinate frame used for downstream processing. </p>
+          <p>The core functionality of the system is the capture of raw point cloud data using the 3D LiDAR. To maintain accuracy during actuation, the system also measures the current scanner angle, and this angle is later combined in post-processing with the known mounting geometry to correct the raw point cloud data. This angle-based correction removes distortion or skew caused by motion and maps each LiDAR return into the HC base frame within the company’s existing processing workflow. To simplify the scanning experience, the system introduces controlled actuation of the LiDAR to widen the field-of-view of each LiDAR scan frame, eliminating the need for manual manoeuvring.</p>
+        </section>
+        <section id="sec-2-2-2-morphological-chart-concept-selection">
+          <h4>2.2.2. Morphological Chart &amp; Concept Selection</h4>
+          <p>Considering different implementations of each function, 4 initial concepts were developed. </p>
+          <table-component subtitle="Table 1: Concept Summary">
+            <div id="table-1-concept-summary"></div>
+          </table-component>
+          <image-component
+            tag="morphological_chart"
+            source="assets/morphological_chart.png"
+            subtitle="Image 11: Morphological Chart"
+          ></image-component>
+          <p>To select which concept to further develop, the top five user needs were used as the basis for quantifying the decision process (see <a href="#sec-app-c-concept-selection">Appendix C</a> for the detailed concept selection).</p>
+          <image-component
+            tag="finalized_concept_selection"
+            source="assets/finalized_concept.png"
+            subtitle="Image 12: Finalized Concept"
+          ></image-component>
+          <p>The evaluation process led to the selection of Concept A as the initial direction, using an ungeared BLDC motor and a magnetic encoder to validate rotational actuation and angle-measurement performance. Encoder-based angle measurement was chosen over an IMU due to simpler implementation and tuning, and different encoder models can still be tested later since they are inexpensive and easily interchangeable. External post-processing was retained to leverage the company’s existing SLAM framework, requiring only the addition of kinematic transforms to align the point cloud data to the HC datum. Continuous rotation was selected for its simplicity and lower weight, avoiding the added mechanical complexity and gearing required for reciprocating designs.</p>
+        </section>
+      </section>
+    </section>
+
+    <section id="sec-3-detail-design">
+      <h2>3. Detail Design</h2>
+      <section id="sec-3-1-system-architecture-and-boundaries"><h3>3.1. System Architecture and Boundaries</h3>
+        <image-component
+          tag="system_architecture"
+          source="assets/architecture_diagram.png"
+          subtitle="Image 13: System Architecture Diagram"
+        ></image-component>
+        <p>The overall system architecture consists of two major groups: the existing d.ASH Pack HC platform and the Spinning LiDAR Module developed in the project. The HC itself is outside the main scope of this project, but it provides essential interfaces, namely power, trigger pulse, and data transfer that the LiDAR module depend on.</p>
+        <p>The Spinning LiDAR Module has two main subsystems, actuation and measurement. The actuation subsystem consists of the motor driver and motor which produce the continuous motion operation concept to expand the effective field of view. The measurement subsystem includes the angle-sensing encoder and the Hesai XT32 LiDAR scanner. The module sends both the real-time angle measurements and the raw LiDAR data directly to the HC. </p>
+        <p>Within the HC, the Jetson Orin Nano compute unit performs all downstream data consolidation. It aligns the LiDAR measurements and the encoder readings using the synchronized trigger pulses and integrates them into the established processing workflow.</p>
+      </section>
+      <section id="sec-3-2-electrical">
+        <h3>3.2. Electrical Design</h3>
+        <section id="sec-3-2-1-electrical-architecture">
+          <h4>3.2.1. Electrical Architecture</h4>
+          <image-component
+            tag="electrical_architecture"
+            source="assets/electrical_architecture.jpg"
+            subtitle="Image 14: Electrical Architecture Diagram"  
+          ></image-component>
+          <p>Building on the overall architecture, the electrical architecture specifies the power and data interface for each required component.</p>
+        </section>
+        <section id="sec-3-2-2-encoder-selection">
+          <h4>3.2.2. Encoder Selection</h4>
+          <p>The encoder used need to have a resolution of at least 14-bit before hysteresis. At 14-bit exactly, jitter of one bit is almost equivalent to 3 cm at 80 m. As such, to meet the nominal value, 14-bit encoders are necessary, and higher resolutions would improve robustness.</p>
+          <p>
+            \( \tan^{-1}\!\left(\frac{30\,\mathrm{mm}}{80\,\mathrm{m}}\right)
+            \approx 0.0214859163^{\circ}
+            \approx \frac{360^{\circ}}{2^{14}}
+            = 0.02197265625^{\circ}\!/\mathrm{bit} \)
+          </p>
+          <p>Preliminary research shows that optical encoder such as the Broadcom AR35-T25 would yield the most linear and accurate result, assuming proper mechanical fitment and mounting. They are, however, more costly and sensitive to mounting and environmental conditions.</p>
+          <image-component
+            tag="optical_encoder"
+            source="assets/amt_encoder.png"
+            subtitle="Image 15: AMT Optical Encoder"
+          ></image-component>
+          <p>Magnetic encoders are the easiest to implement, as most motor manufacturers offer them with the motor along with the diametric magnet, and provide extensive code documentation, though linearity can degrade with temperature. Additionally, commonly used encoders are only available at 14-bit, except for the MT6835, which is capable of 21-bit measurement through built-in hysteresis, calibration, and filtering, significantly more than is required.</p>
+          <image-component
+            tag="magnetic_encoder"
+            source="assets/magnetic_encoder.png"
+            subtitle="Image 16: Magnetic Encoders"
+          ></image-component>
+          <p>Capacitive encoders provide a middle ground, not affected by dust and contaminants, similar to the magnetic encoders, and not affected by heat over time. However, there are very limited options as there is only one manufacturer (CUI/SameSky) and is limited to at most 14 bits, for example the AMT222B.</p>
+          <image-component
+            tag="capacitive_encoder"
+            source="assets/capacitive_encoder.png"
+            subtitle="Image 17: CUI/SameSky Capacitive Encoder"
+          ></image-component>
+        </section>
+        <section id="sec-3-2-3-motor-driver-mcu-board">
+          <h4>3.2.3. Motor Driver MCU Board</h4>
+          <p>For the MCU board, research suggested that using open-source and hobby-level motor control platforms such as ODrive, VESC, or SimpleFOC would be sufficient. This is due to the low rotational speed and power requirement of the device. The limiting factor would then be the clock speed of the MCU, which needs to collect angle data while performing motor control functions.</p>
+          <p>STM32G431 series units are chosen as the MCU models for this project, because of the high processing speeds for finer motor controls, wide peripheral options tailor-made for motor control applications, and support from SimpleFOC.</p>
+        </section>
+        <section id="sec-3-2-4-slip-ring">
+          <h4>3.2.4. Slip Ring</h4>
+          <p>To transfer data and power from the rotating LiDAR unit to the static d.ASH Pack HC base, a slip ring is required for reliable transmission of data and power to the Hesai XT32, which operates at 100Mbps and 30W of peak power. The slip ring is placed on the rotation axis to avoid cable winding and maintain alignment.</p>
+          <image-component
+            tag="slip_ring"
+            source="assets/slip_ring_custom.png"
+            subtitle="Image 18: Custom Slip Ring Channels"
+          ></image-component>
+          <p>At the prototyping stage, the key consideration was whether shielding would be required. As such, we chose to evaluate a custom shielded slip ring from Jinpat Electronics with the following wiring specifications at 12.5mm outer diameter.</p>
+          <image-component
+            tag="iperf_output"
+            source="assets/iperf_output.png"
+            subtitle="Image 19: Iperf3 Output over Slip Ring Test"
+          ></image-component>
+          <p>We also ordered a miniature 7.9mm slip ring for testing which required the splicing of multiple slip-ring channels together to support the high power draw of the LiDAR. Preliminary testing using iperf3 shows that this small slip ring could transmit data within the motor environment at much higher than 100Mbps with no packet loss. For now, we can conclude that shielding is not a priority.</p>
+          </section>
+      </section>
+      <section id="sec-3-3-mechanical-design-considerations">
+        <h3>3.3. Mechanical Design Considerations</h3>
+        <section id="sec-3-3-1-motor-selection">
+          <h4>3.3.1. Motor Selection</h4>
+          <p>For the motors, the following aspects were considered. The design of the spinning LiDAR module mount would need to be as short of a cantilever as possible. This would help in reducing the need for large bearings which adds weight and bulk to the module. Additionally, it should be from a reputable vendor, allow for encoder installation and simple to assemble as much as possible.</p>
+          <p>The rotating assembly should also be designed with its centre of gravity aligned to the axis of rotation to minimise required torque and gyroscopic effect, while limiting the motor to overcome only rotational inertia and internal friction. The total rotating mass is approximately 1kg, with a calculated inertia of 0.0011237kg·m². Achieving an angular acceleration of 0.105rad/s in under two seconds requires only about 0.000059Nm (0.60 g·cm) of torque, which is negligible compared to the >1000g·cm torque ratings of candidate motors. As such, motor torque is not a limiting factor; key considerations instead include bearing load capacity, low-speed smoothness, cogging characteristics, and selecting low-KV motors appropriate for steady, controlled rotation.</p>
+          <p>As such, for the current iteration of ungeared BLDC motors, flat outrunner gimbal motors are considered, looking at price, pole count and as low KV rating as possible. We arrived at the iFlight GM4108H-120T, which is a gimbal motor meant to handle DSLR cameras, about the same dimension and weight as a LiDAR scanner.</p>
+          <image-component
+            tag="motor"
+            source="assets/motor.png"
+            subtitle="Image 20: GM4108H-120T Flat Outrunner BLDC Gimbal Motor"
+          ></image-component>
+        </section>
+        <section id="sec-3-3-2-lidar-mounting-enclosure">
+          <h4>3.3.2. LiDAR Mounting &amp; Enclosure</h4>
+          <p>Market and preliminary research indicate that the LiDAR mount must be highly rigid, withstand continuous operating temperatures of approximately 60 °C from the Hesai XT32, and support the weight and rotational inertia  during operation. Three feasible fabrication methods were evaluated: 3D printing, sheet metal, and carbon-fiber tube assemblies.</p>
+          <image-component
+            tag="clamshell-mount"
+            source="assets/3dp_mount_clamshell.png"
+            subtitle="Image 21: 3D Printed Clamshell LiDAR Mount"
+          ></image-component>
+          <p>3D printing offers rapid iteration and allows complex geometries such as internal cable-routing. However, achieving sufficient thermal stability requires high-temperature materials. PLA is unsuitable due to its 55–60 °C glass transition temperature. For the first prototype, carbon-fiber–filled ABS was selected because of its higher stiffness, improved dimensional accuracy, and a 100 °C glass transition temperature. Future production options include PEEK or carbon-filled Nylon PA12 for increased rigidity.</p>
+          <p>Sheet metal bending provides high rigidity at low weight but may require additional stiffening (e.g. welded ribs or tight-radius bends) due to the small scale of the module. This method is a viable alternative if 3D-printed parts cannot provide the required stiffness.</p>
+          <image-component
+            tag="ronin-mount"
+            source="assets/ronin.png"
+            subtitle="Image 22: Ronin Gimbal Carbon Fiber Tube Mount"
+          ></image-component>
+          <p>Tubular structures such as carbon-fiber tubes or aluminium pipes provide excellent rigidity and are widely used in gimbals. Aluminium tubing is readily available, and suitable for more rapid prototyping. Carbon-fiber tubes offer the highest stiffness-to-weight ratio but may have longer fabrication cycles and higher cost. A hybrid design is also possible, where a carbon-fiber or aluminium tube forms the primary structural element, with lightweight 3D-printed housings for mounting features and aesthetics.</p>
+          <div id="LiDAR-mount-render"></div>
+          <p>The mount geometry should be minimized to avoid blocking the LiDAR’s field of view while maintaining mechanical support. The current design achieves 290° vertical FoV with lofts and clean cable-routing paths. </p>
+          <div class="two-col">
+            <image-component
+              tag="HC_normal_view"
+              source="assets/fixed_lidar_fov.png"
+              subtitle="Image 23: LiDAR Field of View with Static Mount"
+            ></image-component>
+            <video-component 
+              tag="Spinning_LiDAR_Render" 
+              source="assets/mock_render.mp4"
+              subtitle="Video 1: Mock Field of View with Spinning LiDAR Module (290° Vertical FoV)"
+            ></video-component>
+          </div>
+          <p>The prototype design was validated by FEA. Under worst-case loading, displacement was found to be below 0.02mm and peak stress is 311kPa, far below the >60MPa yield strength of ABS-CF20. These results validate that the design meets stiffness, thermal, and structural requirements and forms a basis for subsequent iterations.</p>
+          <div class="two-col">
+          <image-component
+            tag="displacement_plot"
+            source="assets/displacement_plot.png"
+            subtitle="Image 24: Displacement Plot of LiDAR Mount FEA"
+          ></image-component>
+          <image-component
+            tag="stress_plot"
+            source="assets/lidar_mount_fea.png"
+            subtitle="Image 25: Stress Plot of LiDAR Mount FEA"
+          ></image-component>
+          
+        </div>
+        </section>
+      </section>
+      <section id="sec-3-4-software-driver-concept">
+        <h3>3.4. Software/Driver Concept</h3>
+        <section id="sec-3-4-1-simplefoc">
+          <h4>3.4.1. SimpleFOC</h4>
+          <image-component
+            tag="software_architecture"
+            source="assets/software_diagram.png"
+            subtitle="Image 26: Motor Board Software Architecture Diagram"
+          ></image-component>
+          <p>We selected a SimpleFOC-based motor control approach due to its strong community support, proven use in similar projects, and modular software structure that allows for rapid adaptation. The motor board firmware collects and buffers angle measurements on each trigger pulse, captures intermediate samples between pulses, and periodically transmits these angle values over SPI to the d.ASH Pack HC compute unit for timestamping and storage. The Jetson compute module receives the same trigger pulse and records an absolute timestamp using its onboard clock, allowing it to convert the motor board’s relative-time angle data into absolute-time angle values, for further processing in the separate SLAM workflow.</p>
+        </section>
+        <section id="sec-3-4-2-kinematics-transforms">
+          <h4>3.4.2. Kinematics Transforms</h4>
+          <p>Some basic kinematic transforms must be incorporated into the existing scan algorithm, mapping points from the LiDAR base on the HC, through the motor reference frame, through the measured rotational angle, then to the LiDAR mounting center, and finally to the scan origin. This project focuses on deriving the required equations and transformation matrices, while the full integration into the production software stack will be carried out by senior engineers.</p>
+        </section>
+      </section>
+    </section>
+
+    <section id="sec-4-prototyping-testing-progress">
+      <h2>4. Prototyping &amp; Testing Progress</h2>
+      <section id="sec-4-1-overall-prototyping-testing-timeline-progress"><h3>4.1. Overall Prototyping and Testing Timeline and Progress</h3>
+        <image-component
+            tag="gantt_chart"
+            source="assets/gantt_chart.png"
+            subtitle="Image 27: Gantt Chart of Prototyping and Testing Timeline"
+          ></image-component>
+        <p>The prototyping and testing plan follows four phases that progress from feasibility studies to a validated spinning LiDAR module. In Phase 1, the focus was on evaluating individual components and confirming that each subsystem could perform its intended function. This included the assessment of motors, encoders, slip rings, motor drivers, and development of the trigger synchronization module. Bench testing confirmed that these components work reliably and established the timing accuracy required for later integration work.</p>
+        <p>In Phase 2, the goal is to assemble the first functional prototype and begin testing the system as a whole. This involves integrating the motor, encoder, slip ring, and LiDAR into a single setup and carrying out the first controlled. The primary quantitative checks in this phase are the standard deviation of captured planes for measuring accuracy. These checks will help identify mechanical or firmware issues and confirm that controlled actuation yields measurable improvements.</p>
+        <p>Phase 3 and Phase 4 move toward refinement and final validation. In Phase 3, the priority is to improve the prototype through adjustments to mechanical balance, angle measurement accuracy, and firmware stability, while also evaluating optical encoders and frameless motors. In Phase 4, structured user acceptance testing is carried out under realistic operating conditions. The qualitative portion of UAT examines ease of use, operator fatigue, and workflow improvements. The quantitative portion compares scans using the spinning module, the static HC, and a reference scanner such as the BLK360. The key comparisons include the standard deviation of plane fitting to evaluate accuracy, the point density of floor, ceiling, and wall regions to assess evenness, and the completeness of coverage to measure how uniformly the environment is captured. The results will determine whether the spinning LiDAR module provides better scan consistency while simplifying the handheld scanning experience. (For detailed prototyping and testing covered in each phase, refer to <a href="sec-app-e-detailed-prototyping-testing-timeline">Appendix E</a>)</p>
+      </section>
+      <section id="sec-4-2-current-prototypes">
+        <h3>4.2. Current Prototypes</h3>
+        <p><!-- Paste content here --></p>
+        <section id="sec-4-2-1-test-bench">
+          <h4>4.2.1. Test Bench</h4>
+          <video-component 
+              tag="Test_Bench_demo" 
+              source="assets/test_bench.mp4"
+              subtitle="Video 2: Test Bench Prototype Demonstration"
+          ></video-component>
+          <p></p>
+          <video-component 
+              tag="Test_Bench_Lidar" 
+              source="assets/pandar_viewer.mp4"
+              subtitle="Video 3: LiDAR Scan Output"
+          ></video-component>
+          <p>For the current quarter, this project has been allocated SG$3,500 to develop an initial proof-of-concept. So far approximately SG$500 has been used to purchase components for individual testing. </p>
+          <p>The current prototype is a test bench as the preliminary integration testing of all purchased component including LiDAR, SimpleFOC motor driver board, MCU development board, slip ring, motor, encoders, and mechanical and PCB fabrication.</p>
+          <p>All components and motor control algorithm work individually with no issues. The peak current draw of the whole system was found to be 2A, including the LiDAR operating current draw of 1.8A, all within expectations. </p>
+          <p>The next step for this prototype is to integrate all the components to perform a static scan and checking the standard deviation of a plane in the post-processed 3D point cloud map to quantify the scan and angle correction accuracy.</p>
+        </section>
+        <section id="sec-4-2-2-trigger-synchronization">
+          <h4>4.2.2. Trigger Synchronization</h4>
+          <p>The trigger-synchronization pulse for the HC was not available during early integration, so development of the synchronization MCU board progressed in parallel, as it is essential for aligning encoder measurements with LiDAR data. </p>
+          <p>We redesigned the company’s existing controller board from the STM32F072 to the STM32F411 and implemented the new hardware-timer architecture previously validated earlier on a Nucleo-32 development board, achieving stable, repeatable timing with nanohertz-level deviation. The result is the v1.6 MCU board, which successfully demonstrated reliable timer-based trigger generation and GPS PPS support for absolute time reference. </p>
+          <p>After this milestone, the design was handed over to another engineer, who extended it into v1.7 and v1.8 to add more I/O. With these revisions completed and tested, the trigger-synchronization subsystem is now fully functional, enabling synchronized LiDAR–encoder data collection for subsequent transform validation.</p>
+        </section>
+      </section>
+    </section>
+
+    <section id="sec-5-conclusion">
+      <h2>5. Conclusion</h2>
+      <p>This project has established a clear need to improve the handheld scanning workflow of the d.ASH Pack HC and shown the feasibility of a spinning LiDAR module to address current limitations. Completed work including component evaluation, trigger synchronization development, and early integration tests demonstrates that the core subsystems function ideally. Upcoming phases will focus on full-system integration and quantitative validation through plane capture accuracy, and point cloud density, supported by user acceptance testing. These results will determine whether the spinning module can deliver more consistent and complete scan data while reducing dependence on user skill and enhancing the ergonomic scanning experience.</p>
+    </section>
+
+    <section id="sec-app-a-house-of-quality">
+      <h2>Appendix A: House of Quality</h2>
+      <image-component
+        tag="house_of_quality"
+        source="assets/house.png"
+        subtitle="Image 30: House of Quality Needs-Metrics Matrix"
+      ></image-component>
+    </section>
+    <section id="sec-app-b-concept-screening">
+      <h2>Appendix B: Concept Screening</h2>
+      <image-component
+        tag="competitor_analysis_matrix"
+        source="assets/market_analysis.png"
+        subtitle="Image 31: Market/Competitor Analysis Chart"
+      ></image-component>
+      <p>Looking at the competitors, some functional concepts used are dual-axis scanner by Leica, Actuated LiDAR unit by XGrids, and Dual LiDAR setup by NavVis. NavVis increases their field of view by having two standard LiDAR scanners oriented 90 degrees to each other, effectively doubling the vertical FOV from ~30° to ~60° at the cost of added significant bulk. Leica uses their expertise to build an integrated scanner solution using their dual axis rotating scanning unit within an enclosed dome to achieve 270° vertical FOV. XGrids opts to actuate their LiDAR scanner to cover more angles in a scan frame to increase the vertical FOV. They managed to match the field-of-view of Leica BLK2GO, in a slightly bulkier package. </p>
+      <p>When developing our approach, it is important to aim for the top right region of the chart, creating something that increases the LiDAR vertical FOV, while still being compact.</p>
+      <p>Taking their concepts and adding a hemispherical (180° x 360°) LiDAR scanner, we can do a preliminary concept screening using a Pugh matrix, assigning plusses and minuses to concepts and the related criteria which is the top 5 user needs and metrics when compared to the benchmark d.ASH Pack HC with a static LiDAR unit. </p>
+      <image-component
+        tag="concept_screening_matrix"
+        source="assets/screening.png"
+        subtitle="Image 32: Concept Screening Matrix"
+      ></image-component>
+      <p>It is apparent that the dual LiDAR setup ranks worse. The hemispherical LiDAR suffers from the lack of resolution compared to typical high-resolution scanners used in reality capture. However, we should still monitor the development of such technologies as more companies are releasing hemispherical LiDARs. For the dual-axis scanner, to develop a similar solution, it would require a lot of technology development which cannot match the experience Leica has and is deemed not feasible. </p>
+      <p>This leaves us with actuated lidar as the screened concept of operations.</p>
+    </section>
+    <section id="sec-app-c-concept-selection">
+      <h2>Appendix C: Concept Selection</h2>
+      <image-component
+        tag="concept_selection_matrix"
+        source="assets/concept_selection.png"
+        subtitle="Image 33: Concept Selection Matrix"
+      ></image-component>
+      <p>For concept selection, the top 5 metrics from the priority decided through the House of Quality is chosen and assigned a weightage.</p>
+      <p>1.	Scan without much manual manoeuvring and handling</p>
+      <p>- Related metric: Vertical Field-of-view (VFOV) improvement</p>
+      <p>- Weightage: 30%</p>
+      <p>- Weightage rationale: Main function that delivers the value proposition.</p>
+      <p>2.	Comfortably operated for extended periods without fatigue</p>
+      <p>- Related metric: LiDAR system weight</p>
+      <p>- Weightage: 25%</p>
+      <p>- Weightage rationale: Directly correlates to user experience, and fatigue. If proposed module increases the weight significantly, it will negate the benefits of the project</p>
+      <p>3.	Maintain high positional accuracy over scanning distance.</p>
+      <p>- Related metric: LiDAR point accuracy at specified distance</p>
+      <p>- Weightage: 25%</p>
+      <p>- Weightage rationale: Relates to the scan quality, if module deteriorates scan, it would undermine the value of the whole product.</p>
+
+      <p>4.	Ease of operation with minimal training</p>
+      <p>- Related metric: Ease of use</p>
+      <p>- Weightage: 12.5%</p>
+      <p>- Weightage rationale: The system has to be easy to get familiar with to minimise the training time needed for customers and users, and reduce the correlation of scan quality and user experience/skills</p>
+
+      <p>5.	Does not affect battery life significantly</p>
+      <p>- Related metric: Estimated power use</p>
+      <p>- Weightage: 12.5%</p>
+      <p>- Weightage rationale: Scan duration is an important factor in user experience. Frequent battery changes would significantly affect the scanning workflow.</p>
+      <p>The weighted scores for each concept led to concepts A and D having the same score. However, the development of the two concepts need not be mutually exclusive. Concept D can be used as a future work/improvement point after integrating BLDC motors and encoders, as the integrated motor can be seen as a direct upgrade to ungeared BLDC motors which is lighter and more compact.</p>
+
+    </section>
+
+    <section id="sec-app-e-detailed-prototyping-testing-timeline">
+      <h2>Appendix E: Detailed Prototyping and Testing Timeline</h2>
+
+      <section id="sec-app-e-prototyping-timeline">
+        <h3>Prototyping Timeline</h3>
+        <section id="sec-app-e-phase-1">
+          <h4>Phase 1: Planning, Procurement, and Component Evaluation (June–November 2025, completed)</h4>
+          <p>Work began with a comprehensive literature review documented in this report to identify suitable components and scanning concepts, followed by architecture planning and definition of the operational concept. Key hardware elements including BLDC motors, slip rings, motor drivers, and several encoder technologies were procured and evaluated.</p>
+          <p>During this phase, intermediary subsystems required for the spinning module were also developed, notably a trigger synchronization module to align LiDAR and encoder measurements. Familiarization with the d.ASH Pack HC codebase was carried out to understand data timestamping and integration requirements.</p>
+        </section>
+        <section id="sec-app-e-phase-2">
+          <h4>Phase 2: Fabrication and Preliminary Functional Prototype (November–December 2025, ongoing)</h4>
+          <p>Based on the findings from Phase 1, a first functional prototype (Version A2.0) is being designed and prepared for fabrication. This included the motor enclosure and a dedicated motor driver PCB. Firmware for motor control and encoder measurement was implemented, and initial de-skew algorithms are being developed using timestamped datasets.</p>
+          <p>Prototype components will be assembled and tested to identify early mechanical, electrical, and firmware issues. Experiments will also be conducted to explore optimal LiDAR rotating axis relative to the HC.</p>
+        </section>
+        <section id="sec-app-e-phase-3">
+          <h4>Phase 3: Iterative Improvements and Frameless Motor Evaluation (January–February 2026)</h4>
+          <p>Based on the findings from Version A2.0, an improved Version A2.1 will be designed. Work in this phase will involve refining the de-skew algorithm, resolving firmware issues, and improving driver performance.</p>
+          <p>In parallel, frameless motors and higher-precision encoder options will be evaluated to assess their suitability for a lighter and more integrated Version B2.0 design. Fabrication of the A2.1 prototype will be targeted for completion by the end of February.</p>
+        </section>
+        <section id="sec-app-e-phase-4">
+          <h4>Phase 4: Evaluation, Version B2.0 Development, and Finalization  (March–April 2026)</h4>
+          <p>Version A2.1 will undergo iterative testing to prepare a stable internal-use prototype (Version B2.0). Design adjustments will focus on improving robustness, manufacturability, and readiness for extended internal testing.</p>
+          <p>Once the design is finalized, the Version B2.0 prototype will be fabricated and undergo preliminary testing before the end of the project. This prototype will serve as the basis for further evaluation and integration within the d.ASH Pack scanning workflow.</p>
+        </section>
+      </section>
+
+      <section id="sec-app-e-testing-timeline">
+        <h3>Testing Timeline</h3>
+        <section id="sec-app-e-testing-phase-1">
+          <h4>Phase 1: Bench Testing and Component Familiarisation (Completed)</h4>
+          <p>Work began with a comprehensive literature review documented in this report to identify suitable components and scanning concepts, followed by architecture planning and definition of the operational concept. Key hardware elements—including BLDC motors, slip rings, motor drivers, and several encoder technologies—were procured and evaluated for performance, accuracy, and integration feasibility.</p>
+          <p>During this phase, intermediary subsystems required for the spinning module were also developed, notably a trigger synchronization module to align LiDAR and encoder measurements. Familiarization with the d.ASH Pack HC codebase was carried out to understand data timestamping and integration requirements.</p>
+        </section>
+        <section id="sec-app-e-testing-phase-2">
+          <h4>Phase 2: Preliminary Integration Testing</h4>
+          <p>Based on the findings from Phase 1, a first functional prototype (Version A2.0) is being designed and prepared for fabrication. This included the motor enclosure and a dedicated motor driver PCB. Firmware for motor control and encoder measurement was implemented, and initial de-skew algorithms are being developed using timestamped datasets.</p>
+          <p>Prototype components will be assembled and tested to identify early mechanical, electrical, and firmware issues. Experiments will also be conducted to explore optimal LiDAR rotating axis relative to the HC.</p>
+        </section>
+        <section id="sec-app-e-testing-phase-3">
+          <h4>Phase 3: Frameless Motor and Optical Encoder Evaluation</h4>
+          <p>Based on the findings from Version A2.0, an improved Version A2.1 will be designed. Work in this phase will involve refining the de-skew algorithm, resolving firmware issues, and improving driver performance.</p>
+          <p>In parallel, frameless motors and higher-precision encoder options will be evaluated to assess their suitability for a lighter and more integrated Version B2.0 design. Fabrication of the A2.1 prototype will be targeted for completion by the end of February.</p>
+        </section>
+        <section id="sec-app-e-testing-phase-4">
+          <h4>Phase 4: User Acceptance Testing</h4>
+          <p>The final stage will validate the spinning LiDAR module under realistic field conditions. Quantitative testing will compare the spinning module against the current HC and, where available, a benchmark scanner such as the Leica BLK360. </p>
+          <p>To assess scan accuracy, we will compare the standard deviation of fitted planes of the spinning LiDAR scan to existing d.ASH Pack HC to assess scan accuracy. For an acceptable result, the standard deviation of the spinning module should be equal to or lower than the static HC model.</p>
+          <p>To assess scan quality and evenness, we will compare the point-density of specified planes, e.g. the floor, ceiling, and wall surfaces of the same area between the spinning module and the existing HC. For an acceptable result, the density of the spinning module should be higher than the static HC model.</p>
+          <p>Qualitative testing will be conducted with collecting operators feedback when performing equivalent scan tasks using both the HC and the spinning module, focusing on usability, fatigue, workflow ease, and overall user feedback. The system weight will also be measured to confirm compliance with the target of less than 1.2 kg for handheld operation.<!-- Paste content here --></p>
+        </section>
+      </section>
+    </section>
+    <div id="references" class="references">
+      <sl-divider></sl-divider>
+      <h2>References</h2>
+      <ul>
+        <li>
+          Brody, J. E. (2007, December 11). Mental reserves keep brain agile. The New York Times. Retrieved from
+          http://www.dowjones.com/factiva/
+        </li>
+        <li>
+          Chamberlin, J., Novotney, A., Packard, E., & Price, M. (2008, May). Enhancing worker well-being: Occupational
+          health psychologists convene to share their research on work, stress, and health. Monitor on Psychology,
+          39(5), 26-29.
+        </li>
+        <li>
+          Jones, T. J., & Fields, N. (2003). Emotional quotient and personality. E-Journal of Applied Psychology, 2(2),
+          38-45. Retrieved from http://ejournalappliedpsyc/index.php/ejap
+        </li>
+      </ul>
+    </div>
+  </div>
 </body>
 
 </html>
