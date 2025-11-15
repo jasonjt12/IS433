@@ -170,9 +170,9 @@ function createGltfBasicRender(
   scale,
   rotation,
   enableAxes,
-  gltfFilePath = "../assets/dpack_hc_fov/dpack_hc_fov.glb",
+  gltfFilePath = "../assets/revolving_lidar.glb",
   subtitle = "",
-  options = {} // new: { useGltfCamera?: boolean, cameraPose?: { position:[x,y,z], target:[x,y,z], fov?, near?, far? } }
+  options = {}
 ) {
   const element = document.getElementById(id);
   if (!element) return;
@@ -228,9 +228,19 @@ function createGltfBasicRender(
     scene.add(dir);
   }
 
-  const loader = new GLTFLoader(); // no DRACO needed for plain .glb
+  // Resolve URL relative to this module (fixes GitHub Pages subpath issues)
+  const resolveUrl = (p) => {
+    try {
+      return new URL(p, import.meta.url).href;
+    } catch {
+      return p; // if already absolute
+    }
+  };
+  const url = /^https?:\/\//i.test(gltfFilePath) ? gltfFilePath : resolveUrl(gltfFilePath);
+
+  const loader = new GLTFLoader();
   loader.load(
-    gltfFilePath,
+    url,
     async (gltf) => {
       const model = gltf.scene;
 
@@ -289,7 +299,7 @@ function createGltfBasicRender(
     (xhr) => {
       if (xhr.total) console.log(((xhr.loaded / xhr.total) * 100).toFixed(1) + "% loaded");
     },
-    (err) => console.error("GLB load error:", err)
+    (err) => console.error("GLB load error:", err, "URL:", url)
   );
 
   window.addEventListener("resize", () => {
